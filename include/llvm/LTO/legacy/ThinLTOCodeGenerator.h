@@ -248,6 +248,9 @@ public:
   /// Enable ISA Assembly File Output
   void setEnableISAAssemblyFile(bool Enabled) {EnableISAAssemblyFile = Enabled; }
 
+  /// Enable list of explicit Opt passes
+  void setPassList(std::vector<const llvm::PassInfo*> PL) { PassList = PL; }
+
   /// CodeModel
   void setCodePICModel(Optional<Reloc::Model> Model) {
     TMBuilder.RelocModel = Model;
@@ -393,6 +396,9 @@ private:
 
   /// Flag to indicate that the CodeGen should emit Assembly File
   bool EnableISAAssemblyFile = false;
+
+  /// Vector of explicitly enabled passes for optimization
+  std::vector<const llvm::PassInfo*> PassList;
 
   /// IR Optimization Level [0-3].
   unsigned OptLevel = 3;
