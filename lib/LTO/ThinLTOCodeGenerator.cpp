@@ -1008,7 +1008,7 @@ void ThinLTOCodeGenerator::optllc() {
         saveTempBitcode(*TheModule, SaveTempsDir, count, ".1.opt.bc");
 
         // CodeGen
-        auto OutputBuffer = codegenModule(*TheModule, *TMBuilder.create());
+        auto OutputBuffer = codegenModule(*TheModule, *TMBuilder.create(), EnableISAAssemblyFile);
         if (SavedObjectsDirectoryPath.empty()) {
           ProducedBinaries[count] = std::move(OutputBuffer);
         }

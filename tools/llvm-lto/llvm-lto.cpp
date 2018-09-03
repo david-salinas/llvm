@@ -108,6 +108,10 @@ static cl::opt<bool> EnableFreestanding(
     "lto-freestanding", cl::init(false),
     cl::desc("Enable Freestanding (disable builtins / TLI) during LTO"));
 
+static cl::opt<bool> EnableSelectAcceleratorCode(
+    "select-accelerator-code", cl::init(false),
+    cl::desc("Select accelerator code"));
+
 static cl::opt<bool> EnableDeadCodeElimination(
     "dce", cl::init(false),
     cl::desc("Removes dead instructions"));
