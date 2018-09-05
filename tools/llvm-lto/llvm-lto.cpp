@@ -108,6 +108,7 @@ static cl::opt<bool> EnableFreestanding(
     "lto-freestanding", cl::init(false),
     cl::desc("Enable Freestanding (disable builtins / TLI) during LTO"));
 
+#if 0
 static cl::opt<bool> EnableSelectAcceleratorCode(
     "select-accelerator-code", cl::init(false),
     cl::desc("Select accelerator code"));
@@ -127,6 +128,7 @@ static cl::opt<bool> EnableAlwaysInline(
 static cl::opt<bool> EnableInferAddressSpaces(
     "infer-address-spaces", cl::init(false),
     cl::desc("Propagates address spaces from type-qualified variable declarations"));
+#endif
 
 static cl::opt<bool> EnableISAAssemblyFile(
     "dump-isa", cl::init(false),
@@ -530,14 +532,20 @@ public:
     ThinGenerator.setCpu(getCPUStr());
     ThinGenerator.setFeatures(getFeaturesStr());
     ThinGenerator.setCodeModel(getCodeModel());
+
+#if 0
     ThinGenerator.setSelectAcceleratorCode(EnableSelectAcceleratorCode);
     ThinGenerator.setDeadCodeElimination(EnableDeadCodeElimination);
     ThinGenerator.setGlobalDCE(EnableGlobalDCE);
     ThinGenerator.setAlwaysInline(EnableAlwaysInline);
+#endif
 
     ThinGenerator.setFreestanding(EnableFreestanding);
 
+#if 0
     ThinGenerator.setInferAddressSpaces(EnableInferAddressSpaces);
+#endif
+
     ThinGenerator.setEnableISAAssemblyFile(EnableISAAssemblyFile);
     ThinGenerator.setPassList(PassList);
 
