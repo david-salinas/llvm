@@ -761,7 +761,21 @@ public:
   uint16_t SectionIdOfExceptionHandler;
   FrameProcedureOptions Flags;
 
+  /// Extract the register this frame uses to refer to local variables.
+  RegisterId getLocalFramePtrReg(CPUType CPU) const {
+    return decodeFramePtrReg(
+        EncodedFramePtrReg((uint32_t(Flags) >> 14U) & 0x3U), CPU);
+  }
+
+  /// Extract the register this frame uses to refer to parameters.
+  RegisterId getParamFramePtrReg(CPUType CPU) const {
+    return decodeFramePtrReg(
+        EncodedFramePtrReg((uint32_t(Flags) >> 16U) & 0x3U), CPU);
+  }
+
   uint32_t RecordOffset;
+
+private:
 };
 
 // S_CALLSITEINFO

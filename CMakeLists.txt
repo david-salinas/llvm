@@ -495,7 +495,7 @@ option(LLVM_INCLUDE_GO_TESTS "Include the Go bindings tests in test build target
 
 option(LLVM_BUILD_BENCHMARKS "Add LLVM benchmark targets to the list of default
 targets. If OFF, benchmarks still could be built using Benchmarks target." OFF)
-option(LLVM_INCLUDE_BENCHMARKS "Generate benchmark targets. If OFF, benchmarks can't be built." OFF)
+option(LLVM_INCLUDE_BENCHMARKS "Generate benchmark targets. If OFF, benchmarks can't be built." ON)
 
 option (LLVM_BUILD_DOCS "Build the llvm documentation." OFF)
 option (LLVM_INCLUDE_DOCS "Generate build targets for llvm documentation." ON)
@@ -973,17 +973,38 @@ if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
   add_custom_target(llvm-headers DEPENDS intrinsics_gen)
   set_target_properties(llvm-headers PROPERTIES FOLDER "Misc")
 
-  if (NOT LLVM_ENABLE_IDE)
+  if (NOT CMAKE_CONFIGURATION_TYPES)
     add_llvm_install_targets(install-llvm-headers
                              DEPENDS llvm-headers
                              COMPONENT llvm-headers)
+  endif()
+
+  # Custom target to install all libraries.
+  add_custom_target(llvm-libraries)
+  set_target_properties(llvm-libraries PROPERTIES FOLDER "Misc")
+
+  if (NOT CMAKE_CONFIGURATION_TYPES)
+    add_llvm_install_targets(install-llvm-libraries
+                             DEPENDS llvm-libraries
+                             COMPONENT llvm-libraries)
+  endif()
+
+  get_property(LLVM_LIBS GLOBAL PROPERTY LLVM_LIBS)
+  if(LLVM_LIBS)
+    list(REMOVE_DUPLICATES LLVM_LIBS)
+    foreach(lib ${LLVM_LIBS})
+      add_dependencies(llvm-libraries ${lib})
+      if (NOT CMAKE_CONFIGURATION_TYPES)
+        add_dependencies(install-llvm-libraries install-${lib})
+      endif()
+    endforeach()
   endif()
 endif()
 
 # This must be at the end of the LLVM root CMakeLists file because it must run
 # after all targets are created.
 if(LLVM_DISTRIBUTION_COMPONENTS)
-  if(LLVM_ENABLE_IDE)
+  if(CMAKE_CONFIGURATION_TYPES)
     message(FATAL_ERROR "LLVM_DISTRIBUTION_COMPONENTS cannot be specified with multi-configuration generators (i.e. Xcode or Visual Studio)")
   endif()
 
