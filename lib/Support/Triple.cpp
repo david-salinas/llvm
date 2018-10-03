@@ -236,7 +236,7 @@ StringRef Triple::getEnvironmentTypeName(EnvironmentType Kind) {
   case Cygnus: return "cygnus";
   case CoreCLR: return "coreclr";
   case Simulator: return "simulator";
-  }
+   }
 
   llvm_unreachable("Invalid EnvironmentType!");
 }

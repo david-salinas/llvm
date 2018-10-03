@@ -114,6 +114,12 @@ static cl::opt<bool> PrintImportFailures(
 static cl::opt<bool> ComputeDead("compute-dead", cl::init(true), cl::Hidden,
                                  cl::desc("Compute dead symbols"));
 
+bool llvm::ForceImportWeakFlag;
+static cl::opt<bool, true>
+ForceImportWeak("force-import-weak", cl::Hidden,
+                cl::desc("Allow weak functions to be imported"),
+                cl::location(ForceImportWeakFlag), cl::init(false));
+
 static cl::opt<bool> EnableImportMetadata(
     "enable-import-metadata", cl::init(
 #if !defined(NDEBUG)

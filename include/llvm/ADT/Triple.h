@@ -664,6 +664,10 @@ public:
     return getArch() == Triple::aarch64 || getArch() == Triple::aarch64_be;
   }
 
+  /// Tests wether the target supports comdat
+  bool supportsCOMDAT() const { return !isOSBinFormatMachO() && 
+                                         getArch() != Triple::amdgcn; }
+
   /// Tests whether the target is MIPS 32-bit (little and big endian).
   bool isMIPS32() const {
     return getArch() == Triple::mips || getArch() == Triple::mipsel;
@@ -677,11 +681,6 @@ public:
   /// Tests whether the target is MIPS (little and big endian, 32- or 64-bit).
   bool isMIPS() const {
     return isMIPS32() || isMIPS64();
-  }
-
-  /// Tests whether the target supports comdat
-  bool supportsCOMDAT() const {
-    return !isOSBinFormatMachO();
   }
 
   /// Tests whether the target uses emulated TLS as default.

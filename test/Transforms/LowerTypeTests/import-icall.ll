@@ -35,7 +35,7 @@ declare extern_weak void @external_weak()
 
 ; internal @local_b is not the same function as "local_b" in the summary.
 ; CHECK:      define internal i8 @local_b() {
-; CHECK-NEXT:   call i8 @local_a()
+; CHECK-NEXT:   call i8 @local_a.cfi()
 
 ; CHECK:      define void @local_decl()
 ; CHECK-NEXT:   call void @local_decl()
